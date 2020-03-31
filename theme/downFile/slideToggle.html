@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Begin Jekyll SEO tag v2.6.1 -->
+</head>
+
+<pre>
+;
+(function ($, window, document, undefined) {
+  var pluginName = "jqueryAccordionMenu";
+  var defaults = {
+    speed: 300,
+    showDelay: 0,
+    hideDelay: 0,
+    singleOpen: true,
+    clickEffect: true,
+    arrowPath: null,
+    iconPath: null,
+    onClick: null,
+  };
+
+  function Plugin(element, options) {
+    this.element = element;
+    this.settings = $.extend({}, defaults, options);
+    this._defaults = defaults;
+    this._name = pluginName;
+    this.init();
+  }
+
+  $.extend(Plugin.prototype, {
+    init: function () {
+      this.openSubmenu();
+      this.submenuIndicators();
+      if (defaults.clickEffect) {
+        this.addClickEffect();
+      }
+    },
+    openSubmenu: function () {
+      $(this.element).children('ul').find('li').bind('click touchstart', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if ($(this).children('.submenu').length > 0) {
+          if ($(this).children('.submenu').css('display') == 'none') {
+            $(this).children('.submenu').delay(defaults.showDelay).slideDown(defaults.speed);
+            $(this).children('.submenu').siblings('a').addClass('submenu-indicator-minus');
+            if (defaults.singleOpen) {
+              $(this).siblings().find('.submenu').slideUp(defaults.speed);
+              $(this).siblings().find('.submenu').siblings('a').removeClass('submenu-indicator-minus');
+            }
+            return false;
+          } else {
+            $(this).find('.submenu').delay(defaults.hideDelay).slideUp(defaults.speed);
+          }
+
+          if ($(this).children('.submenu').siblings('a').hasClass('submenu-indicator-minus')) {
+            $(this).find('.submenu').siblings('a').removeClass('submenu-indicator-minus');
+          }
+        }
+        window.location.href = $(this).children('a').attr('href');
+      })
+    },
+    submenuIndicators: function () {
+
+      if ($(this.element).find('.submenu').length > 0) {
+        $(this.element).find('.submenu').siblings('a').append('<span class="' + this.settings.iconPath + ' submenu-indicator"><img src="' + this.settings.arrowPath + '" alt=""></span>');
+        // console.log($(this.element));
+
+      }
+    },
+    addClickEffect: function () {
+      var ink, d, x, y;
+      var obj = this;
+
+      $(this.element).find('a').bind('click touchstart', function (e) {
+
+
+        if (obj.settings.onClick !== null) {
+          obj.settings.onClick($(this));
+        
+        }
+
+
+        $('.ink').remove();
+        if ($(this).children('.ink').length === 0) {
+          $(this).prepend('<span class="ink"></span>');
+        }
+        ink = $(this).find('.ink');
+        ink.removeClass('animate-ink');
+        if (!ink.height() && !ink.width()) {
+          d = Math.max($(this).outerWidth(), $(this).outerHeight());
+          ink.css({
+            height: d,
+            width: d
+          });
+        }
+        x = e.pageX - $(this).offset().left - ink.width() / 2;
+        y = e.pageY - $(this).offset().top - ink.height() / 2;
+        ink.css({
+          top: y + 'px',
+          left: x + 'px'
+        }).addClass('animate-ink');
+
+        if ($(this).siblings().find('ul').length >= 1) {
+
+        }
+      });
+    }
+  });
+  $.fn[pluginName] = function (options) {
+    this.each(function () {
+      if (!$.data(this, 'plugin_' + pluginName)) {
+        $.data(this, 'plugin_' + pluginName, new Plugin(this, options));
+      }
+    });
+    return this;
+  }
+
+
+
+})(jQuery, window, document);
+
+
+$('.accordion1 ul ul li a').prepend('<span class="submenu-indicator-plus-on"></span>');
+$('.accordion2 ul ul li a').prepend('<span class="submenu-2dep"></span>');
+
+$('.submenu-indicator-plus-on').css('background', '#999999');
+var tag = $('.submenu').siblings()
+for (let i = 0, len = tag.length; i < len; i++) {
+  tag.eq(i).find('.submenu-indicator-plus-on').css('background', '#2cbbb6');
+}
+
+$('.accordion1').jqueryAccordionMenu({
+  arrowPath: "../images/arrow.png",
+  iconPath: "submenu-indicator-o"
+});
+
+$('.accordion2').jqueryAccordionMenu({
+  arrowPath: "../images/select_arrow.png",
+  iconPath: "submenu-indicator-v",
+  onClick: function ($this) {
+    if ($this.hasClass('submenu-indicator-minus') === false) {
+        $this.find('img').attr('src', '../images/select_arrow2.png');
+    } else {
+      $this.find('img').attr('src', '../images/select_arrow.png');
+    }
+  }
+});
+
+
+
+
+let toggleNavStatus = false;
+
+function toggleNav() {
+  let getSidebar = document.querySelector(".nav-sidebar");
+  let getSidebarUl = document.querySelector(".nav-sidebar ul");
+  let getSidebarTitle = document.querySelector(".nav-sidebar span");
+  let getSidebarLinks = document.querySelectorAll(".nav-sidebar a");
+  let getSideDim = document.querySelector(".dim");
+  if (toggleNavStatus === false) {
+    getSideDim.style.opacity = "1";
+    // getSideDim.style.transitionDuration = "0.7s";
+    getSideDim.style.display = "block";
+    getSidebarUl.style.visibility = "visible";
+    getSidebar.style.width = "85%";
+    getSidebar.style.left = "0px";
+    // getSidebar.style.opacity = "1";
+    // getSideDim.style.width = "100%";
+    // getSideDim.style.right = "0px";
+
+    let arrayLength = getSidebarLinks.length;
+    for (let i = 0; i < arrayLength; i++) {
+      getSidebarLinks[i].style.opacity = "1";
+    }
+    toggleNavStatus = true;
+  } else if (toggleNavStatus === true) {
+    getSideDim.style.opacity = "0";
+    // getSideDim.style.transitionDuration = "0.7s";
+    // getSideDim.style.transitionDuration = "0s";
+    getSideDim.style.display = "none";
+
+    getSidebar.style.width = "0px";
+    getSidebar.style.left = "-100px";
+    // getSidebar.style.opacity = "0"; 
+    // getSideDim.style.width = "0px"
+    // getSideDim.style.right = "-100px"
+    let arrayLength = getSidebarLinks.length;
+    for (let i = 0; i < arrayLength; i++) {
+      getSidebarLinks[i].style.opacity = "0";
+    }
+    getSidebarUl.style.visibility = "hidden";
+    toggleNavStatus = false;
+  }
+}
+
+
+window.addEventListener('load', function (e) {
+
+  document.getElementById('hamberger-menu-open').addEventListener('click', function (e) {
+    toggleNav();
+  });
+  document.getElementById('dim').addEventListener('click', function (e) {
+    toggleNav();
+  });
+
+
+});
+
+</code>
+
+
+
+
+</body>
+
+</html>

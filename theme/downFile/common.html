@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Begin Jekyll SEO tag v2.6.1 -->
+</head>
+
+<pre>
+$(document).ready(function () {
+  //팝업
+  $('.btn-regi').on('click',function(){
+    alert('ddd');
+    var scrollBarWidth = window.innerWidth - document.body.offsetWidth;
+    $('body').css('margin-right', scrollBarWidth).addClass('showing-modal');
+    // closeModal($modal);
+    $('body').css('margin-right', '').removeClass('showing-modal');
+
+   
+  });
+
+  function popup() {
+
+
+
+    //열때 바디 너비, overflow hidden 넣기
+    function openModal($modal) {
+      var scrollBarWidth = window.innerWidth - document.body.offsetWidth;
+      $('body').css('margin-right', scrollBarWidth).addClass('showing-modal');
+      $modal.show();
+    };
+    //닫을때  바디너비, overflow hidden 빼기 
+    function closeModal($modal) {
+      $('body').css('margin-right', '').removeClass('showing-modal');
+      $modal.hide();
+    };
+    //btn-close버튼 넣으면 닫힘
+    $('.btn-close').on('click', function () {
+      $modal.hide();
+      closeModal($modal);
+    })
+    //팝업 내부 dim 때문에 닫히니까 이벤트 제외처리
+    var $modal = $('.popup-warp');
+
+    $modal.click(function () {
+      closeModal($modal);
+    }).find('.modal-inner , .popup-content').click(function (event) {
+      event.stopPropagation();
+    });
+    //popup-btn 클릭 모달 열기
+    $('.popup-btn').click(function (event) {
+      event.preventDefault();
+      openModal($modal);
+    });
+
+  }
+  popup();
+
+
+  // toggleLayer 클릭시 toggleLayerBox none, block
+  function toggleLayer() {
+    if ($('.toggleLayerBox').css('display') == ('none')) {
+      $('.toggleLayerBox').show();
+    } else {
+      $('.toggleLayerBox').hide();
+    }
+  }
+  $('.toggleLayer').on('click', function () {
+    toggleLayer();
+  });
+
+
+  // sub-head 버튼 유무에 따라서 길이 움직이기
+  var subLength = $('.sub-head').find(".btn-top-content > button");
+  if (subLength.length == 1) {
+    $('.sub-box ').css('width', 'calc(100% - 5.5rem)');
+  }else if(subLength.length > 1){
+    $('.sub-box ').css('width', 'calc(100% - 11rem)');
+  }else if(subLength.length == 0) {
+    $('.sub-box ').css('width', '100%');
+  }
+
+
+});
+
+</pre>
+
+
+
+
+</body>
+
+</html>

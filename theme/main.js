@@ -26,7 +26,7 @@ function buildAlert({company, link, dueTime, projectImage, explain, contribute,d
                                 <td>${division}</td>
                             </tr>
                             <tr>
-                                <th>기여도</th>
+                                <th>기여</th>
                                 <td>${contribute}</td>
                             </tr>
                             <tr>
@@ -191,6 +191,35 @@ $(document).ready(function(e) {
         `
         ,
   },
+  pop006 : {
+    title : 'K-BOX',
+    projectLink : '',
+    company : 'KTDS',
+    division: '모바일',
+    contribute: 'html 100%, jquery 100%',
+    dueTime : '2주',
+    explain: 
+    `
+    <li>내부서버에서 진행, 비밀유지로 화면 없음</li>
+    <li>2주 작업 후, 2주 기존 개발 코드에 붙이며 틀어지는 부분 수정</li>
+    <li>jquery로 슬라이드 메뉴(디자인다름) 작업</li>
+    <li>jquery로 팝업 작업</li>
+    <li><a href="./theme/downFile/common.html" target="_blank">팝업 스크립트</a></li>
+    <li> <a href="./theme/downFile/slideToggle.html" target="_blank" >슬라이드메뉴 스크립트</a>
+    </li>
+    `
+    ,
+    projectImage : 
+    `
+    <div class="pop-img">
+    
+    <p>슬라이드메뉴</p>
+      <img src="./theme/img/kbox/page001.png" alt="프로젝트 이미지" style="width:35%; margin:auto;">
+
+    </div>
+    `
+    ,
+},
     };
 
 
